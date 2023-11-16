@@ -3,7 +3,7 @@ import requests
 from lxml import html
 from urllib.parse import urlparse
 from telegram import Update, ForceReply
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+from telegram.ext import Updater, CommandHandler, MessageHandler, CallbackContext, Filters
 
 
 def start(update: Update, context: CallbackContext) -> None:
@@ -48,5 +48,5 @@ def main() -> None:
     updater.idle()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
