@@ -1,18 +1,17 @@
 import os
+from flask import Flask, request
 import requests
 from lxml import html
-from urllib.parse import urlparse
-from telegram import Update, ForceReply
-from pyrogram.filters
-from telegram.ext import Updater, CommandHandler, MessageHandler, CallbackContext
 
+app = Flask(name)
 
-def start(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text('Hello! Welcome to the Telegram bot.')
+@app.route('/')
+def index():
+    return 'Hello, I am a Telegram bot!'
 
-
-def download_link(update: Update, context: CallbackContext) -> None:
-    url = update.message.text
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    url = request.json['message']['text']
 
     api = 'https://6e0.uuxd.workers.dev'
     api_res = requests.get(api, params={'url': url}).text
@@ -33,21 +32,17 @@ def download_link(update: Update, context: CallbackContext) -> None:
     tree = html.fromstring(res)
     drive = tree.xpath('//button[@onclick]/@onclick')[0][6:-2]
 
-    update.message.reply_text(f"TG: {tg}\nDrive: {drive}")
+    send_message(tg)
+    send_message(drive)
 
+    return 'OK'
 
-def main() -> None:
-    token = os.environ.get('TELEGRAM_TOKEN')
-    updater = Updater(token)
+def send_message(text):
+    token = os.getenv('TELEGRAM_TOKEN')
+    chat_id = os.getenv('TELEGRAM_CHAT_ID')
+    url = f'https://api.telegram.org/bot{token}/sendMessage'
+    payload = {'chat_id': chat_id, 'text': text}
+    requests.post(url, json=payload)
 
-    dispatcher = updater.dispatcher
-
-    dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, download_link))
-
-    updater.start_polling()
-    updater.idle()
-
-
-if __name__ == "__main__":
-    main()
+if name == 'main':
+    app.run()
