@@ -1,6 +1,10 @@
-FROM python:3.9
+
+FROM python:3.9-slim
+
 WORKDIR /app
-COPY requirements.txt .
+
+COPY . /app
+
 RUN pip install --no-cache-dir -r requirements.txt
-COPY bot.py .
-CMD ["python", "bot.py"]
+
+CMD ["gunicorn", "-b", "0.0.0.0:$PORT", "bot.py:app"]
