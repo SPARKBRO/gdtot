@@ -1,4 +1,3 @@
+flask
 requests
 lxml
-python-telegram-bot
-pyrogram
