@@ -1,0 +1,17 @@
+{
+  "name": "your-app-name",
+  "description": "Your app description",
+  "repository": "https://github.com/your-username/your-repo",
+  "keywords": ["telegram", "bot"],
+  "addons": ["heroku-postgresql"],
+  "env": {
+    "TELEGRAM_TOKEN": {
+      "description": "Your Telegram bot token",
+      "required": true
+    },
+    "TELEGRAM_CHAT_ID": {
+      "description": "Your Telegram chat ID",
+      "required": true
+    }
+  }
+}￼Enter
