@@ -2,7 +2,9 @@ import os
 import requests
 from lxml import html
 from urllib.parse import urlparse
-from telegram import Update, ForceReply, Updater, CommandHandler, MessageHandler, CallbackContext, Filters
+from telegram import Update, ForceReply
+from pyrogram.filters
+from telegram.ext import Updater, CommandHandler, MessageHandler, CallbackContext
 
 
 def start(update: Update, context: CallbackContext) -> None:
